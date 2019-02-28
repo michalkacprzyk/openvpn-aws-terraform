@@ -1,0 +1,9 @@
+#!/bin/bash
+# mk (c) 2019
+export DOMAIN="example.com"
+export CLIENTS="mk_ux305 mk_t530"
+export S3_TARGET="s3://openvpn-example-com/clients"
+
+export EASYRSA_VER="v3.0.6"
+export EASYRSA_URL="https://github.com/OpenVPN/easy-rsa/releases/download/${EASYRSA_VER}/EasyRSA-unix-${EASYRSA_VER}.tgz"
+export EASYRSA_SIG_URL="${EASYRSA_URL}.sig"

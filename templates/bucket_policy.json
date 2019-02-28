@@ -1,0 +1,48 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Server is allowed to copy files",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": [
+                    "${server_role_arn}"
+                ]
+            },
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": "${bucket_arn}/*"
+        },
+        {
+            "Sid": "User is allowed to list bucket directories",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": ${user_arns} 
+            },
+            "Action": "s3:ListBucket",
+            "Resource": "${bucket_arn}",
+            "Condition": {
+                "StringLike": {
+                    "s3:prefix": [
+                        "",
+                        "clients/*"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "User is allowed to download name prefixed files",
+            "Effect": "Allow",
+            "Action": "s3:GetObject",
+            "Resource": [
+                "${bucket_arn}/clients/$${aws:username}_*"
+            ],
+            "Principal": {
+                "AWS": ${user_arns} 
+            }
+        }
+    ]
+}
