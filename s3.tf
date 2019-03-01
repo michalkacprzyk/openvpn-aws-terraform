@@ -3,6 +3,7 @@
 
 data "template_file" "bucket_policy" {
   template = "${file("templates/bucket_policy.json")}"
+
   vars = {
     server_role_arn = "${aws_iam_role.openvpn_server.arn}"
     bucket_arn      = "arn:aws:s3:::${var.s3_bucket_name}"
@@ -11,11 +12,12 @@ data "template_file" "bucket_policy" {
 }
 
 resource "aws_s3_bucket" "openvpn" {
-  bucket        = "${var.s3_bucket_name}"
-  acl           = "private"
-  policy        = "${data.template_file.bucket_policy.rendered}"
+  bucket = "${var.s3_bucket_name}"
+  acl    = "private"
+  policy = "${data.template_file.bucket_policy.rendered}"
+
   tags = {
-    Name        = "${var.s3_bucket_name}"
+    Name = "${var.s3_bucket_name}"
   }
 
   server_side_encryption_configuration {
@@ -26,5 +28,4 @@ resource "aws_s3_bucket" "openvpn" {
       }
     }
   }
-
 }
